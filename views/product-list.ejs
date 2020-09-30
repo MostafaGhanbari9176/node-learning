@@ -1,0 +1,28 @@
+<%- include('./includes/start.ejs') %>
+<body>
+    <%- include('./includes/menu.ejs') %>
+    <%      if(products.length == 0){      %>
+
+    <h1>product list is empty</h1>
+
+    <%      }  else {    %>
+    <ul>
+        <%     products.forEach(product => {     %>
+        <li> <%=    product.title    %> | <%=    product.price    %> |
+            <a href="/product/edit/<%=  product.id  %>">Edit</a>
+            |
+            <form action="/product/delete" method="post">
+                <input type="hidden" name="id" value="<%=  product.id  %>"/>
+                <button type="submit">Delete</button>
+            </form>
+            |
+            <form action="/cart/add" method="post">
+                <input type="hidden" name="id" value="<%=  product.id  %>"/>
+                <button type="submit">Add To Cart</button>
+            </form>
+        </li>
+        <%     })     %>
+    </ul>
+    <%     }     %>
+</body>
+</html>

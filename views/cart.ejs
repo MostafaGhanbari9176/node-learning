@@ -1,0 +1,14 @@
+<%- include('./includes/start.ejs') %>
+<body>
+    <%- include('./includes/menu.ejs') %>
+    <%   if(products.length == 0){   %>
+    <h1>Cart Is Empty</h1>
+    <%  } else {  %>
+    <ul>
+        <%  products.forEach(product => {  %>
+        <li><%=  product.title  %>: <%=  product.cartItem.count  %> | <a href="/cart/remove/<%= product.id%>" >Remove</a></li>
+        <%  })  %>
+    </ul>
+    <%  }  %>
+</body>
+</html>

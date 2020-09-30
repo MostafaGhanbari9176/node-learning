@@ -1,0 +1,14 @@
+<%- include('./includes/start.ejs') %>
+<body>
+    <%- include('./includes/menu.ejs') %>
+    <form action="/product/<%=   edit? "edit" : "create"  %>" method="post">
+        <%    if(edit){    %>
+        <input type="hidden" name="id" value="<%=    product.id    %>"/>
+        <%    }    %>
+        <input type="text" name="title" placeHolder="title" value="<%=   edit ? product.title :""   %>"/>
+        <input type="text" name="price" placeHolder="price" value="<%=   edit ? product.price :""   %>"/>
+        <button type="submit"><%=     edit ? "Edit":"Add"     %></button>
+    </form>
+
+</body>
+</html>
