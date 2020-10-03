@@ -6,9 +6,15 @@
     <%  } else {  %>
     <ul>
         <%  products.forEach(product => {  %>
-        <li><%=  product.title  %>: <%=  product.cartItem.count  %> | <a href="/cart/remove/<%= product.id%>" >Remove</a></li>
+        <li><%=  product.title  %>: <%=  product.count  %> | <a href="/cart/remove/<%= product._id%>" >Remove</a></li>
         <%  })  %>
     </ul>
     <%  }  %>
+    <%   if(products.length != 0){   %>
+    <form action="/order/create" method="post">
+        <textarea name="address" placeHolder="address" required></textarea>
+        <button type="submit">create order</button>
+    </form>
+    <%  } %>
 </body>
 </html>

@@ -1,0 +1,17 @@
+<%- include('./includes/start.ejs') %>
+<body>
+    <%- include('./includes/menu.ejs')%>
+    <%   if(orders.length ===0){  %>
+    <h1>not any order found 😨</h1>
+    <%  } else {  %>
+    <%   orders.forEach(order => {  %>
+    <ul>
+        <li class="listHeader"> <%=  order._id %> | <%=  order.date %> </li>
+        <%  order.products.forEach(product => { %>
+        <li><%=  product.title %> | <%=  product.price %> : <%= product.count %></li>
+        <% }) %>
+    </ul>
+    <%  })  %>
+    <%  }  %>
+</body>
+</html>

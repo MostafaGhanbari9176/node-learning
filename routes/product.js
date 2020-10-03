@@ -16,4 +16,6 @@ router.get('/user-list', controller.getUserProducts)
 
 router.post('/delete', controller.postDelete)
 
+router.get('/detail/:id', controller.getDetail)
+
 module.exports = router

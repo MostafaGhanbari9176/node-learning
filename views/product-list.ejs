@@ -8,18 +8,17 @@
     <%      }  else {    %>
     <ul>
         <%     products.forEach(product => {     %>
-        <li> <%=    product.title    %> | <%=    product.price    %> |
-            <a href="/product/edit/<%=  product.id  %>">Edit</a>
-            |
+        <li> <%=    product.title    %> | <%=    product.price    %>
+            <a href="/product/edit/<%=  product._id  %>">Edit</a>
             <form action="/product/delete" method="post">
-                <input type="hidden" name="id" value="<%=  product.id  %>"/>
+                <input type="hidden" name="id" value="<%=  product._id  %>"/>
                 <button type="submit">Delete</button>
             </form>
-            |
             <form action="/cart/add" method="post">
-                <input type="hidden" name="id" value="<%=  product.id  %>"/>
+                <input type="hidden" name="id" value="<%=  product._id  %>"/>
                 <button type="submit">Add To Cart</button>
             </form>
+            <a href="/product/detail/<%= product._id%>"> Detail </a>
         </li>
         <%     })     %>
     </ul>

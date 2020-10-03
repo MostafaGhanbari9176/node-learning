@@ -1,15 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
+const database = require('./utils/database')
+const User = require('./models/user')
+
 const productRouter = require('./routes/product')
 const cartRouter = require('./routes/cart')
-
-const sequelize = require('./utils/database')
-
-const User = require('./models/user')
-const Product = require('./models/product')
-const Cart = require('./models/cart')
-const CartItem = require('./models/cart-item')
+const orderRouter = require('./routes/order')
 
 const app = express()
 
@@ -20,9 +17,10 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'))
 
 app.use((req, res, next) => {
-    User.findByPk(1)
+    User.getUserSystem()
         .then(user => {
-            req.user = user
+            //console.log("currentUser: ", user)
+            req.user = new User(user)
             next()
         })
         .catch(err => console.log(err))
@@ -34,36 +32,26 @@ app.get('/', (req, res) => {
 
 app.use('/product', productRouter)
 app.use('/cart', cartRouter)
+app.use('/order', orderRouter)
 
 
 app.use((req, res) => {
     res.status(400).render('./error.ejs', {pageTitle: "404", message: "Page Not Found"})
 })
 
-User.hasMany(Product)
-Product.belongsTo(User)
-User.hasOne(Cart)
-Cart.belongsTo(User)
-Cart.belongsToMany(Product, {through: CartItem})
-Product.belongsToMany(Cart, {through: CartItem})
-
-sequelize.sync({force: false})
-    .then(result => {
-        return User.findByPk(1)
-            .then(user => {
-                if (!user)
-                    return User.create()
-                return user
-            })
-            .catch(err => console.log(err))
-    })
-    .then(user => {
-        return user.createCart()
-    })
-    .then(result => {
-        //console.log(result)
-        app.listen(1997)
-    })
-    .catch(err => {
-        console.log(err)
-    })
+database.createConnection(() => {
+    User.getUserSystem()
+        .then(user => {
+            if (!user) {
+                const user = new User({
+                    userName: "mostafa", email: "info@mostafa.com", cart: []
+                })
+                return user.save()
+            }
+            return user
+        })
+        .then(() => {
+            app.listen(1997)
+        })
+        .catch(err => console.log(err))
+})
