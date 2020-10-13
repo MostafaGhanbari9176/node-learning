@@ -7,8 +7,8 @@
     <%   orders.forEach(order => {  %>
     <ul>
         <li class="listHeader"> <%=  order._id %> | <%=  order.date %> </li>
-        <%  order.products.forEach(product => { %>
-        <li><%=  product.title %> | <%=  product.price %> : <%= product.count %></li>
+        <%  order.products.forEach(p => { %>
+        <li><%=  p.product.title %> | <%=  p.product.price %> : <%= p.count %></li>
         <% }) %>
     </ul>
     <%  })  %>

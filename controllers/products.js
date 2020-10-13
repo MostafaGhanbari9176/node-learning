@@ -8,7 +8,7 @@ exports.getCreateProduct = (req, res) => {
 }
 
 exports.postCreateProduct = (req, res) => {
-    const product = new Product(req.body)
+    const product = new Product({...req.body, user:req.user})
     product.save()
         .then(result => {
             res.redirect('/product/list')
@@ -62,6 +62,18 @@ exports.postDeleteProduct = (req, res) => {
     Product.findByIdAndDelete(req.body.id)
         .then(() => {
             res.redirect('/product/list')
+        })
+        .catch(err => console.log(err))
+}
+
+exports.getUserProducts = (req, res) => {
+    Product.find({user:req.user})
+        .then(products => {
+            res.render('./product-list.ejs',
+                {
+                    pageTitle:"Created Products",
+                    products:products
+                })
         })
         .catch(err => console.log(err))
 }

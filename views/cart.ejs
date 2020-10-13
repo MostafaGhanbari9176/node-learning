@@ -8,13 +8,13 @@
         <%  products.forEach(product => {  %>
         <li><%=  product.title  %>: <%=  product.count  %> | <a href="/cart/remove/<%= product._id%>" >Remove</a></li>
         <%  })  %>
+        <li>
+            <form action="/order/create" method="post" style="display:flex">
+                <textarea name="address" placeHolder="address" required></textarea>
+                <button type="submit">create order</button>
+            </form>
+        </li>
     </ul>
     <%  }  %>
-    <%   if(products.length != 0){   %>
-    <form action="/order/create" method="post">
-        <textarea name="address" placeHolder="address" required></textarea>
-        <button type="submit">create order</button>
-    </form>
-    <%  } %>
 </body>
 </html>

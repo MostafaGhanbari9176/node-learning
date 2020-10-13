@@ -17,4 +17,6 @@ router.post('/edit', controller.postEditProduct)
 
 router.post('/delete', controller.postDeleteProduct)
 
+router.get('/user-list', controller.getUserProducts)
+
 module.exports = router
