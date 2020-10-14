@@ -28,3 +28,31 @@ exports.getRemoveProduct = (req, res) => {
         })
         .catch(err => console.log(err))
 }
+
+exports.getIncreaseCount = (req, res) => {
+    const productId = req.params.productId
+    req.user.increaseCount(productId)
+        .then(() => {
+            res.redirect('/cart/')
+        })
+        .catch(err => console.log(err))
+}
+
+exports.getDecreaseCount = (req, res) => {
+    const productId = req.params.productId
+    const item = req.user.getProduct(productId)
+    if (item.count <= 1)
+        req.user.removeFromCart(productId)
+            .then(() => {
+                res.redirect('/cart/')
+            })
+            .catch(err => console.log(err))
+    else {
+        item.count = item.count - 1
+        req.user.save()
+            .then(() => {
+                res.redirect('/cart/')
+            })
+            .catch(err => console.log(err))
+    }
+}

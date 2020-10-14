@@ -6,7 +6,11 @@
     <%  } else {  %>
     <ul>
         <%  products.forEach(product => {  %>
-        <li><%=  product.title  %>: <%=  product.count  %> | <a href="/cart/remove/<%= product._id%>" >Remove</a></li>
+        <li><%=  product.title  %>: <%=  product.count  %> |
+            <a href="/cart/remove/<%= product._id%>" >❌</a>
+            <a href="/cart/increase/<%= product._id%>" >➕</a>
+            <a href="/cart/decrease/<%= product._id%>" >➖</a>
+        </li>
         <%  })  %>
         <li>
             <form action="/order/create" method="post" style="display:flex">

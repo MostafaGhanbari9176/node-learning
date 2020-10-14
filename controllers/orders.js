@@ -7,8 +7,12 @@ exports.postCreateOrder = (req, res) => {
         .execPopulate()
         .then(user => {
             const order = new Order({
+                date: new Date(),
                 address: address,
                 user: req.user,
+                total: Math.floor(user.cart.items.reduce((t, o) => {
+                    return t + (o.product.price * o.count)
+                }, 0)),
                 products: user.cart.items
             })
             return order.save()
@@ -24,9 +28,10 @@ exports.postCreateOrder = (req, res) => {
 }
 
 exports.getOrderList = (req, res) => {
-    Order.find({user:req.user})
+    Order.find({user: req.user})
         .then(orders => {
-            res.render('./order.ejs', {pageTitle:"Orders", orders:orders})
+            console.log(orders)
+            res.render('./order.ejs', {pageTitle: "Orders", orders: orders})
         })
         .catch(err => console.log(err))
 }

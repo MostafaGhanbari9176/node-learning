@@ -17,7 +17,9 @@ const orderSchema = new Schema({
         ],
         required: true
     },
-    address: String
+    address: String,
+    date: Date,
+    total: String
 })
 
 module.exports = mongoose.model('Order', orderSchema)
