@@ -2,10 +2,13 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
+const utilities = require('./utils/utilities')
+
 const User = require('./models/user')
 const productRouter = require('./routes/product')
 const cartRouter = require('./routes/cart')
 const orderRouter = require('./routes/order')
+const authRouter = require('./routes/auth')
 
 const app = express()
 
@@ -16,6 +19,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'))
 
 app.use((req, res, next) => {
+    req.loggedIn = utilities.loggedIn(req)
     User.findOne()
         .then(user => {
             req.user = user
@@ -25,12 +29,13 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-    res.render('./index.ejs', {pageTitle: "Main Page"})
+    res.render('./index.ejs', {pageTitle: "Main Page", loggedIn:req.loggedIn})
 })
 
 app.use('/product/', productRouter)
 app.use('/cart/', cartRouter)
 app.use('/order/', orderRouter)
+app.use('/auth/', authRouter)
 
 app.use((req, res) => {
     res.status(400).render('./error.ejs', {pageTitle: "404", message: "Page Not Found"})

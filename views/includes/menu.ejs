@@ -1,8 +1,21 @@
-<ul id="menu">
-    <li><a href="/">🏡</a></li>
-    <li><a href="/product/create">Add Product</a></li>
-    <li><a href="/product/list">Product List</a></li>
-    <li><a href="/product/user-list">My Product List</a></li>
-    <li><a href="/cart/">My Cart</a></li>
-    <li><a href="/order/">My Orders</a></li>
-</ul>
+<div id="menu">
+    <ul>
+        <li><a href="/">🏡</a></li>
+        <%if(loggedIn){%>
+        <li><a href="/product/create">Add Product</a></li>
+        <%}%>
+        <li><a href="/product/list">Product List</a></li>
+        <%if(loggedIn){%>
+        <li><a href="/product/user-list">My Product List</a></li>
+        <li><a href="/cart/">My Cart</a></li>
+        <li><a href="/order/">My Orders</a></li>
+        <%}%>
+    </ul>
+    <ul>
+        <%if(loggedIn){%>
+        <li><a href="/auth/logOut">LogOut</a></li>
+        <%} else{%>
+        <li><a href="/auth/logIn">LogIn</a></li>
+        <%}%>
+    </ul>
+</div>

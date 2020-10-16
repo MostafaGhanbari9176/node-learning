@@ -3,7 +3,9 @@ const Product = require('../models/product')
 exports.getCreateProduct = (req, res) => {
     res.render('./create-product.ejs',
         {
-            pageTitle: "Create New Product", edit: false
+            pageTitle: "Create New Product",
+            edit: false,
+            loggedIn:req.loggedIn
         })
 }
 
@@ -19,7 +21,11 @@ exports.postCreateProduct = (req, res) => {
 exports.getProductList = (req, res) => {
     Product.find()
         .then(products => {
-            res.render('./product-list.ejs', {pageTitle: "All Products", products: products})
+            res.render('./product-list.ejs', {
+                pageTitle: "All Products",
+                products: products,
+                loggedIn:req.loggedIn
+            })
         })
         .catch(err => console.log(err))
 }
@@ -30,7 +36,8 @@ exports.getProductDetail = (req, res) => {
         .then(product => {
             res.render('./product-detail.ejs', {
                 pageTitle: "Detail",
-                product: product
+                product: product,
+                loggedIn:req.loggedIn
             })
         })
         .catch(err => console.log(err))
@@ -44,7 +51,8 @@ exports.getEditProduct = (req, res) => {
                 {
                     pageTitle: "Edit Product",
                     product: product,
-                    edit: true
+                    edit: true,
+                    loggedIn:req.loggedIn
                 })
         })
         .catch(err => console.log(err))
@@ -72,7 +80,8 @@ exports.getUserProducts = (req, res) => {
             res.render('./product-list.ejs',
                 {
                     pageTitle:"Created Products",
-                    products:products
+                    products:products,
+                    loggedIn:req.loggedIn
                 })
         })
         .catch(err => console.log(err))

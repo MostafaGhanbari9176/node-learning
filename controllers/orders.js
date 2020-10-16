@@ -31,7 +31,11 @@ exports.getOrderList = (req, res) => {
     Order.find({user: req.user})
         .then(orders => {
             console.log(orders)
-            res.render('./order.ejs', {pageTitle: "Orders", orders: orders})
+            res.render('./order.ejs', {
+                pageTitle: "Orders",
+                orders: orders,
+                loggedIn:req.loggedIn
+            })
         })
         .catch(err => console.log(err))
 }

@@ -15,7 +15,11 @@ exports.getCart = (req, res) => {
             const products = user.cart.items.map(i => {
                 return {...(i.product._doc), count: i.count}
             })
-            res.render('./cart.ejs', {pageTitle: "Cart", products: products})
+            res.render('./cart.ejs', {
+                pageTitle: "Cart",
+                products: products,
+                loggedIn: req.loggedIn
+            })
         })
         .catch(err => console.log(err))
 }
