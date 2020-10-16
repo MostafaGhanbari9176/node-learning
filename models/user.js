@@ -9,6 +9,10 @@ const userSchema = new Schema({
         default: "mostafa"
     },
     email: String,
+    pass:{
+        type:String,
+        default:"123456789"
+    },
     cart: {
         items: {
             type: [

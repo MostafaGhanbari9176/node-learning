@@ -1,7 +1,7 @@
 <%- include('./includes/start.ejs') %>
 <body>
 <%- include('./includes/menu.ejs') %>
-    <h1>Welcome 💦</h1>
+    <h1>Welcome <%if(loggedIn){%><strong> <%= user.userName%> </strong><%}%></h1>
 </body>
 </html>
 

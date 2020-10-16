@@ -92,3 +92,8 @@ h1 {
     border-right: seagreen solid 1px;
     border-left: seagreen solid 1px;
 }
+
+strong{
+    font-family: tahoma, serif;
+    color: seagreen;
+}

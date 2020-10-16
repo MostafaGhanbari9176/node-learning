@@ -9,6 +9,7 @@
     <ul>
         <%     products.forEach(product => {     %>
         <li> <%=    product.title    %> | <%=    product.price    %>
+            <%if(loggedIn){%>
             <a href="/product/edit/<%=  product._id  %>">Edit</a>
             <form action="/product/delete" method="post">
                 <input type="hidden" name="id" value="<%=  product._id  %>"/>
@@ -19,6 +20,7 @@
                 <button type="submit">Add To Cart</button>
             </form>
             <a href="/product/detail/<%= product._id%>"> Detail </a>
+            <%}%>
         </li>
         <%     })     %>
     </ul>
