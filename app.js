@@ -10,6 +10,7 @@ const productRouter = require('./routes/product')
 const cartRouter = require('./routes/cart')
 const orderRouter = require('./routes/order')
 const authRouter = require('./routes/auth')
+const flashMessage = require('./middlewares/flash-message')
 
 const MongoDb_URI = 'mongodb://localhost:27017/market'
 
@@ -30,6 +31,7 @@ app.use(session({
     store: store
 }))
 app.use(csrf())
+app.use(flashMessage)
 
 app.use((req, res, next) => {
     if (req.session.user) {

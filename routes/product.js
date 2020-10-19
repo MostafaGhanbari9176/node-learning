@@ -1,6 +1,6 @@
 const express = require('express')
 
-const isAuth = require('../middlewares/isAuth')
+const isAuth = require('../middlewares/is-auth')
 
 const controller = require('../controllers/products')
 

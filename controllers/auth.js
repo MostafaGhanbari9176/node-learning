@@ -3,7 +3,10 @@ const bCrypt = require('bcryptjs')
 const User = require("../models/user")
 
 exports.getLogIn = (req, res) => {
-    res.render('./auth/logIn.ejs', {pageTitle: "LogIn"})
+    res.render('./auth/logIn.ejs', {
+        pageTitle: "LogIn",
+        message: req.flash("error")
+    })
 }
 
 exports.postLogIn = (req, res) => {
@@ -11,6 +14,7 @@ exports.postLogIn = (req, res) => {
     User.findOne({userName: userName})
         .then(user => {
             if (!user) {
+                req.flash("error", "invalid username")
                 res.redirect('/auth/logIn')
             } else {
                 bCrypt.compare(req.body.pass, user.pass)
@@ -22,10 +26,13 @@ exports.postLogIn = (req, res) => {
                                     console.log(err)
                                 res.redirect('/')
                             })
-                        } else
+                        } else {
+                            req.flash("error", "invalid pass")
                             res.redirect('/auth/logIn')
+                        }
                     })
                     .catch(err => {
+                        req.flash("error", "something wrong 🤔")
                         res.redirect('/auth/logIn')
                         console.log(err)
                     })
@@ -43,7 +50,10 @@ exports.getLogOut = (req, res) => {
 }
 
 exports.getLogUp = (req, res) => {
-    res.render('./auth/logup.ejs', {pageTitle: "Create Your Account"})
+    res.render('./auth/logup.ejs', {
+        pageTitle: "Create Your Account",
+        message: req.flash("error")
+    })
 }
 
 exports.postLogUp = (req, res) => {
@@ -51,6 +61,7 @@ exports.postLogUp = (req, res) => {
     User.findOne({userName: userName})
         .then(user => {
             if (user) {
+                req.flash("error", "username exist, please choose another one🌹")
                 res.redirect('/auth/logUp')
             } else {
                 bCrypt.hash(req.body.pass, 12)
@@ -62,6 +73,7 @@ exports.postLogUp = (req, res) => {
                         return user.save()
                     })
                     .then(() => {
+                        req.flash("error", "your account created")
                         res.redirect('/auth/logIn')
                     })
                     .catch(err => console.log(err))

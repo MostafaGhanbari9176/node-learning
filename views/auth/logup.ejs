@@ -2,6 +2,9 @@
 <body>
     <%- include('../includes/menu.ejs') %>
     <form action="/auth/logUp" method="post">
+        <% if(message){ %>
+        <h4 class="message"><%= message %></h4>
+        <% } %>
         <input type="hidden" name="_csrf" value="<%= csrfToken%>"/>
         <h3><%= pageTitle%></h3>
         <input type="text" name="userName" placeHolder="userName" />
