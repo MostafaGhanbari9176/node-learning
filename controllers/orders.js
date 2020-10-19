@@ -33,8 +33,7 @@ exports.getOrderList = (req, res) => {
             console.log(orders)
             res.render('./order.ejs', {
                 pageTitle: "Orders",
-                orders: orders,
-                loggedIn:req.loggedIn
+                orders: orders
             })
         })
         .catch(err => console.log(err))

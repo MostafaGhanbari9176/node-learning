@@ -17,8 +17,7 @@ exports.getCart = (req, res) => {
             })
             res.render('./cart.ejs', {
                 pageTitle: "Cart",
-                products: products,
-                loggedIn: req.loggedIn
+                products: products
             })
         })
         .catch(err => console.log(err))

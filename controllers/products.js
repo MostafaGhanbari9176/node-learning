@@ -4,8 +4,7 @@ exports.getCreateProduct = (req, res) => {
     res.render('./create-product.ejs',
         {
             pageTitle: "Create New Product",
-            edit: false,
-            loggedIn:req.loggedIn
+            edit: false
         })
 }
 
@@ -13,7 +12,7 @@ exports.postCreateProduct = (req, res) => {
     const product = new Product({...req.body, user:req.user})
     product.save()
         .then(result => {
-            res.redirect('/product/list')
+            res.redirect('/product/user-list')
         })
         .catch(err => console.log(err))
 }
@@ -23,8 +22,7 @@ exports.getProductList = (req, res) => {
         .then(products => {
             res.render('./product-list.ejs', {
                 pageTitle: "All Products",
-                products: products,
-                loggedIn:req.loggedIn
+                products: products
             })
         })
         .catch(err => console.log(err))
@@ -36,8 +34,7 @@ exports.getProductDetail = (req, res) => {
         .then(product => {
             res.render('./product-detail.ejs', {
                 pageTitle: "Detail",
-                product: product,
-                loggedIn:req.loggedIn
+                product: product
             })
         })
         .catch(err => console.log(err))
@@ -51,8 +48,7 @@ exports.getEditProduct = (req, res) => {
                 {
                     pageTitle: "Edit Product",
                     product: product,
-                    edit: true,
-                    loggedIn:req.loggedIn
+                    edit: true
                 })
         })
         .catch(err => console.log(err))
@@ -80,8 +76,7 @@ exports.getUserProducts = (req, res) => {
             res.render('./product-list.ejs',
                 {
                     pageTitle:"Created Products",
-                    products:products,
-                    loggedIn:req.loggedIn
+                    products:products
                 })
         })
         .catch(err => console.log(err))

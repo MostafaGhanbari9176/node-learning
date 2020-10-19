@@ -7,4 +7,7 @@ router.post('/LogIn', controller.postLogIn)
 
 router.get('/logOut', controller.getLogOut)
 
+router.get('/logUp', controller.getLogUp)
+router.post('/logUp', controller.postLogUp)
+
 module.exports = router

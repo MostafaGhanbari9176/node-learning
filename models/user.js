@@ -5,13 +5,12 @@ const Schema = mongoose.Schema
 const userSchema = new Schema({
     userName: {
         type: String,
-        required: true,
-        default: "mostafa"
+        required: true
     },
     email: String,
     pass:{
         type:String,
-        default:"123456789"
+        required: true
     },
     cart: {
         items: {

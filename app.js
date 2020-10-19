@@ -31,7 +31,6 @@ app.use(session({
 
 app.use((req, res, next) => {
     if (req.session.user) {
-        req.loggedIn = true
         User.findOne({_id: req.session.user})
             .then(user => {
                 req.user = user
@@ -42,8 +41,15 @@ app.use((req, res, next) => {
         next()
 })
 
+app.use((req, res, next) => {
+    res.locals = {
+        loggedIn: req.session.user != null
+    }
+    next()
+})
+
 app.get('/', (req, res) => {
-    res.render('./index.ejs', {pageTitle: "Main Page", loggedIn: req.loggedIn, user:req.user})
+    res.render('./index.ejs', {pageTitle: "Main Page", user: req.user})
 })
 
 app.use('/product/', productRouter)
@@ -52,23 +58,13 @@ app.use('/order/', orderRouter)
 app.use('/auth/', authRouter)
 
 app.use((req, res) => {
-    res.status(400).render('./error.ejs', {pageTitle: "404", message: "Page Not Found", loggedIn: req.loggedIn})
+    res.status(400).render('./error.ejs', {pageTitle: "404", message: "Page Not Found"})
 })
 
 mongoose.connect(MongoDb_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-    .then(() => {
-        return User.findOne()
-    })
-    .then(user => {
-        if (!user) {
-            const user = new User()
-            return user.save()
-        }
-        return user
-    })
     .then(() => app.listen(1997))
     .catch(err => console.log(err))
 
