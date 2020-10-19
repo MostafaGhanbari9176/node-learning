@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session)
+const csrf = require('csurf')
 
 const User = require('./models/user')
 const productRouter = require('./routes/product')
@@ -28,6 +29,7 @@ app.use(session({
     saveUninitialized: false,
     store: store
 }))
+app.use(csrf())
 
 app.use((req, res, next) => {
     if (req.session.user) {
@@ -43,7 +45,8 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
     res.locals = {
-        loggedIn: req.session.user != null
+        loggedIn: req.session.user != null,
+        csrfToken: req.csrfToken()
     }
     next()
 })
