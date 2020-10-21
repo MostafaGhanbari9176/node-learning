@@ -10,6 +10,7 @@ a, button {
     background: gray;
     padding: 5px;
     border-radius: 5px;
+    text-align: center;
 }
 
 ul {

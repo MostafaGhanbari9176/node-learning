@@ -1,16 +1,14 @@
 <%- include('../includes/start.ejs') %>
 <body>
     <%- include('../includes/menu.ejs') %>
-    <form action="/auth/logIn" method="post">
+    <form action="/auth/reset" method="post">
         <% if(message){ %>
         <h4 class="message"><%= message %></h4>
         <% } %>
         <input type="hidden" name="_csrf" value="<%=  csrfToken %>"/>
         <h3><%=  pageTitle %></h3>
-        <input type="text" name="userName" placeHolder="userName"/>
-        <input type="password" name="pass" placeHolder="password"/>
-        <button type="submit">LogIn ➡</button>
-        <a href="/auth/reset">reset password</a>
+        <input type="email" name="email" placeHolder="email"/>
+        <button type="submit">reset password</button>
     </form>
 </body>
 </html>

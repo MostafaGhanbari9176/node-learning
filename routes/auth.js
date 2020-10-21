@@ -10,4 +10,9 @@ router.get('/logOut', controller.getLogOut)
 router.get('/logUp', controller.getLogUp)
 router.post('/logUp', controller.postLogUp)
 
+router.get('/reset', controller.getResetPass)
+router.post('/reset', controller.postResetPass)
+router.get('/updatePass/:token', controller.getUpdatePass)
+router.post('/updatePass', controller.postUpdatePass)
+
 module.exports = router

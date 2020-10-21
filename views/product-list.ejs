@@ -10,12 +10,14 @@
         <%     products.forEach(product => {     %>
         <li> <%=    product.title    %> | <%=    product.price    %>
             <%if(loggedIn){%>
+            <% if(canModify) {%>
             <a href="/product/edit/<%=  product._id  %>">Edit</a>
             <form action="/product/delete" method="post">
                 <input type="hidden" name="_csrf" value="<%= csrfToken%>"/>
                 <input type="hidden" name="id" value="<%=  product._id  %>"/>
                 <button type="submit">Delete</button>
             </form>
+            <%}%>
             <form action="/cart/add" method="post">
                 <input type="hidden" name="_csrf" value="<%= csrfToken%>"/>
                 <input type="hidden" name="id" value="<%=  product._id  %>"/>

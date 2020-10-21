@@ -1,3 +1,5 @@
+const nodeMailer = require('nodemailer')
+
 const extractCookies = req => {
     const result = []
     const cookies = req.get("Cookie")
@@ -16,4 +18,29 @@ exports.loggedIn = req => {
     const cookieList = extractCookies(req)
     const logInCookie = cookieList.find(c => c.key === "LoggedIn")
     return logInCookie == null ? false : logInCookie.value === 'true'
+}
+
+exports.sendMail = (subject, body, to) => {
+    const from = "market@mostafaghanbari.ir"
+    const transporter = nodeMailer.createTransport({
+        host: "mail.mostafaghanbari.ir",
+        port: 465,
+        secure: true,
+        pool: true,
+        auth: {
+            user: from,
+            pass: "********************"
+        }
+    })
+
+    transporter.sendMail({
+        subject: subject,
+        from: from,
+        to: to,
+        html: body
+
+    }, (err, result) => {
+        if(err)
+            console.log("email",err)
+    })
 }

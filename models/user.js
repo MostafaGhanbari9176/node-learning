@@ -7,9 +7,14 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    email: String,
-    pass:{
-        type:String,
+    resetToken: String,
+    resetTokenExpiration: Date,
+    email: {
+        type: String,
+        required: true
+    },
+    pass: {
+        type: String,
         required: true
     },
     cart: {

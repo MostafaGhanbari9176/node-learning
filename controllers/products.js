@@ -22,7 +22,8 @@ exports.getProductList = (req, res) => {
         .then(products => {
             res.render('./product-list.ejs', {
                 pageTitle: "All Products",
-                products: products
+                products: products,
+                canModify:false
             })
         })
         .catch(err => console.log(err))
@@ -65,7 +66,7 @@ exports.postEditProduct = (req, res) => {
 exports.postDeleteProduct = (req, res) => {
     Product.findByIdAndDelete(req.body.id)
         .then(() => {
-            res.redirect('/product/list')
+            res.redirect('/product/user-list')
         })
         .catch(err => console.log(err))
 }
@@ -76,7 +77,8 @@ exports.getUserProducts = (req, res) => {
             res.render('./product-list.ejs',
                 {
                     pageTitle:"Created Products",
-                    products:products
+                    products:products,
+                    canModify:true
                 })
         })
         .catch(err => console.log(err))
