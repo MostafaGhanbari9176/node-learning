@@ -56,7 +56,7 @@ exports.getEditProduct = (req, res) => {
 }
 
 exports.postEditProduct = (req, res) => {
-    Product.updateOne({_id: req.body.id}, {$set: {title: req.body.title, price: req.body.price}})
+    Product.updateOne({_id: req.body.id, user:req.user}, {$set: {title: req.body.title, price: req.body.price}})
         .then(() => {
             res.redirect('/product/list')
         })
@@ -64,7 +64,7 @@ exports.postEditProduct = (req, res) => {
 }
 
 exports.postDeleteProduct = (req, res) => {
-    Product.findByIdAndDelete(req.body.id)
+    Product.deleteOne({_id:req.body.id, user:req.user})
         .then(() => {
             res.redirect('/product/user-list')
         })

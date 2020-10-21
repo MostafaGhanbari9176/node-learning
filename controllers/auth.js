@@ -61,10 +61,10 @@ exports.getLogUp = (req, res) => {
 exports.postLogUp = (req, res) => {
     const userName = req.body.userName
     const email = req.body.email
-    User.findOne({userName: userName, email: email})
+    User.findOne({$or: [{userName: userName}, {email: email}]})
         .then(user => {
             if (user) {
-                req.flash("error", "username exist, please choose another one🌹")
+                req.flash("error", "repetitious info")
                 res.redirect('/auth/logUp')
             } else {
                 bCrypt.hash(req.body.pass, 12)
@@ -153,7 +153,7 @@ exports.postUpdatePass = (req, res) => {
 
     User.findOne({resetToken: token, resetTokenExpiration: {$gt: Date.now()}, _id: userId})
         .then(user => {
-            if(!user){
+            if (!user) {
                 return res.render('./error.ejs', {
                     pageTitle: "Forbidden",
                     message: "your request wrong."
@@ -162,7 +162,7 @@ exports.postUpdatePass = (req, res) => {
             bCrypt.hash(pass, 12)
                 .then(hashedPass => {
                     user.pass = hashedPass
-                    user.resetToken =  undefined
+                    user.resetToken = undefined
                     user.resetTokenExpiration = undefined
                     return user.save()
                 })
