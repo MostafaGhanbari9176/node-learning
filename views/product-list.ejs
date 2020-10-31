@@ -30,6 +30,17 @@
         </li>
         <%     })     %>
     </ul>
+
+    <div class="pagination">
+        <%if(havePrev){%>
+        <a href="?page=<%= prev%>">prev</a>
+        <%}%>
+        <%=page%>/<%=total%>
+        <%if(haveNext){%>
+        <a href="?page=<%= next%>">next</a>
+        <%}%>
+    </div>
+
     <%     }     %>
 </body>
 </html>

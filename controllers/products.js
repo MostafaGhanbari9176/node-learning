@@ -1,6 +1,8 @@
 const Product = require('../models/product')
 const utils = require('../utils/utilities')
 
+const ITEM_PER_PAGE = 1
+
 exports.getCreateProduct = (req, res) => {
     res.render('./create-product.ejs',
         {
@@ -21,12 +23,26 @@ exports.postCreateProduct = (req, res, next) => {
 }
 
 exports.getProductList = (req, res) => {
-    Product.find()
+    const page = +req.query.page || 1
+    let itemsCount
+    Product.countDocuments()
+        .then(_itemsCount => {
+            itemsCount = _itemsCount
+            return Product.find()
+                .skip((page - 1) * ITEM_PER_PAGE)
+                .limit(ITEM_PER_PAGE)
+        })
         .then(products => {
             res.render('./product-list.ejs', {
                 pageTitle: "All Products",
                 products: products,
-                canModify: false
+                canModify: false,
+                next: page + 1,
+                prev: page - 1,
+                haveNext: (page + 1) <= itemsCount,
+                havePrev: (page - 1) >= 1,
+                page:page,
+                total:itemsCount
             })
         })
         .catch(err => console.log(err))
@@ -87,14 +103,28 @@ exports.postDeleteProduct = (req, res) => {
 }
 
 exports.getUserProducts = (req, res) => {
-    Product.find({user: req.user})
+
+    const page = +req.query.page || 1
+    let itemsCount
+    Product.countDocuments()
+        .then(_itemsCount => {
+            itemsCount = _itemsCount
+            return Product.find({user:req.user})
+                .skip((page - 1) * ITEM_PER_PAGE)
+                .limit(ITEM_PER_PAGE)
+        })
         .then(products => {
-            res.render('./product-list.ejs',
-                {
-                    pageTitle: "Created Products",
-                    products: products,
-                    canModify: true
-                })
+            res.render('./product-list.ejs', {
+                pageTitle: "All Products",
+                products: products,
+                canModify: false,
+                next: page + 1,
+                prev: page - 1,
+                haveNext: (page + 1) <= itemsCount,
+                havePrev: (page - 1) >= 1,
+                page:page,
+                total:itemsCount
+            })
         })
         .catch(err => console.log(err))
 }
