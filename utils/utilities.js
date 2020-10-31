@@ -1,4 +1,6 @@
 const nodeMailer = require('nodemailer')
+const fs = require('fs')
+const path = require('path')
 
 const extractCookies = req => {
     const result = []
@@ -29,7 +31,7 @@ exports.sendMail = (subject, body, to) => {
         pool: true,
         auth: {
             user: from,
-            pass: "********************"
+            pass: "wizardmarket1997"
         }
     })
 
@@ -43,4 +45,9 @@ exports.sendMail = (subject, body, to) => {
         if(err)
             console.log("email",err)
     })
+}
+
+exports.deleteImage = (name) => {
+    const imagePath = path.join(path.dirname(process.mainModule.filename), 'public', 'images', 'products', name)
+    fs.unlink(imagePath, (err) => console.log(err))
 }

@@ -8,7 +8,9 @@
     <%      }  else {    %>
     <ul>
         <%     products.forEach(product => {     %>
-        <li> <%=    product.title    %> | <%=    product.price    %>
+        <li>
+            <img src="/productImage/<%= product.image %>"/>
+            <%=    product.title    %> | <%=    product.price    %>
             <%if(loggedIn){%>
             <% if(canModify) {%>
             <a href="/product/edit/<%=  product._id  %>">Edit</a>

@@ -1,4 +1,5 @@
 const Product = require('../models/product')
+const utils = require('../utils/utilities')
 
 exports.getCreateProduct = (req, res) => {
     res.render('./create-product.ejs',
@@ -8,13 +9,15 @@ exports.getCreateProduct = (req, res) => {
         })
 }
 
-exports.postCreateProduct = (req, res) => {
-    const product = new Product({...req.body, user:req.user})
+exports.postCreateProduct = (req, res, next) => {
+    const imagePath = req.file == null ? undefined : req.file.filename
+    console.log(req.file)
+    const product = new Product({...req.body, user: req.user, image: imagePath})
     product.save()
         .then(result => {
             res.redirect('/product/user-list')
         })
-        .catch(err => console.log(err))
+        .catch(err => next(err))
 }
 
 exports.getProductList = (req, res) => {
@@ -23,7 +26,7 @@ exports.getProductList = (req, res) => {
             res.render('./product-list.ejs', {
                 pageTitle: "All Products",
                 products: products,
-                canModify:false
+                canModify: false
             })
         })
         .catch(err => console.log(err))
@@ -55,30 +58,42 @@ exports.getEditProduct = (req, res) => {
         .catch(err => console.log(err))
 }
 
-exports.postEditProduct = (req, res) => {
-    Product.updateOne({_id: req.body.id, user:req.user}, {$set: {title: req.body.title, price: req.body.price}})
-        .then(() => {
-            res.redirect('/product/list')
+exports.postEditProduct = (req, res, next) => {
+    Product.findOne({_id: req.body.id, user: req.user})
+        .then(product => {
+            if (product) {
+                product.title = req.body.title
+                product.prixe = req.body.price
+                if (req.file) {
+                    utils.deleteImage(product.image)
+                    product.image = req.file.filename
+                }
+                return product.save()
+            }
+            throw new Error('access denied!')
         })
-        .catch(err => console.log(err))
+        .then(() => res.redirect('/product/user-list'))
+        .catch(err => next(err))
 }
 
 exports.postDeleteProduct = (req, res) => {
-    Product.deleteOne({_id:req.body.id, user:req.user})
-        .then(() => {
-            res.redirect('/product/user-list')
+    Product.findOne({_id: req.body.id, user: req.user})
+        .then(product => {
+            utils.deleteImage(product.image)
+            return product.deleteOne()
         })
+        .then(() => res.redirect('/product/user-list'))
         .catch(err => console.log(err))
 }
 
 exports.getUserProducts = (req, res) => {
-    Product.find({user:req.user})
+    Product.find({user: req.user})
         .then(products => {
             res.render('./product-list.ejs',
                 {
-                    pageTitle:"Created Products",
-                    products:products,
-                    canModify:true
+                    pageTitle: "Created Products",
+                    products: products,
+                    canModify: true
                 })
         })
         .catch(err => console.log(err))

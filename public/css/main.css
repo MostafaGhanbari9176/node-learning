@@ -125,3 +125,8 @@ strong {
     background: #ffbebe;
     color: red
 }
+
+img{
+    width:56px;
+    height:56px
+}

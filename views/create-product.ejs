@@ -1,13 +1,17 @@
 <%- include('./includes/start.ejs') %>
 <body>
     <%- include('./includes/menu.ejs') %>
-    <form action="/product/<%=   edit? "edit" : "create"  %>" method="post">
+    <form action="/product/<%=   edit? "edit" : "create"  %>" method="post" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="<%= csrfToken%>"/>
         <%    if(edit){    %>
         <input type="hidden" name="id" value="<%=    product._id    %>"/>
         <%    }    %>
         <input type="text" name="title" placeHolder="title" value="<%=   edit ? product.title :""   %>"/>
         <input type="text" name="price" placeHolder="price" value="<%=   edit ? product.price :""   %>"/>
+        <%if(edit){%>
+        <img src="/productImage/<%=product.image%>" alt="oldImage"/>
+        <%}%>
+        <input type="file" name="image" placeHolder="choose product image"/>
         <button type="submit"><%=     edit ? "Edit":"Add"     %></button>
     </form>
 
