@@ -50,14 +50,10 @@ exports.releasePdf = (req, res, next) => {
                 throw new Error('not order found!')
             if (order.user.toString() === req.user._id.toString()) {
                 const docPath = path.join('data', 'order_docs', 'order-' + orderId + '.pdf')
-
-                fs.readFile(docPath, ((err, data) => {
-                    if (err)
-                        console.log(err)
-                    res.setHeader('Content-Type', 'application/pdf')
-                    res.setHeader('Content-Disposition', ' attachment; filename="order-' + orderId + '.pdf"')
-                    res.send(data)
-                }))
+                const file = fs.createReadStream(docPath)
+                res.setHeader('Content-Type', 'application/pdf')
+                res.setHeader('Content-Disposition', 'filename="order-'+orderId+'.pdf"')
+                file.pipe(res)
             } else
                 throw new Error('access denied ❌')
         })
