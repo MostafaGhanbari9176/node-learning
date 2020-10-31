@@ -48,7 +48,7 @@ app.set('views', 'views')
 app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'))
-app.use('/productImage', express.static(path.join(__dirname, 'public', 'images', 'products')))
+app.use('/product/image', express.static(path.join(__dirname, 'public', 'images', 'products')))
 app.use(session({
     secret: "Hash sign",
     resave: false,

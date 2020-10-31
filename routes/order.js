@@ -12,4 +12,6 @@ router.post('/create', controller.postCreateOrder)
 
 router.get('/', controller.getOrderList)
 
+router.get('/:orderId', controller.releasePdf)
+
 module.exports = router

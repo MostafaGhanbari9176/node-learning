@@ -10,7 +10,7 @@
         <%  order.products.forEach(p => { %>
         <li><%=  p.product.title %> | <%=  p.product.price %> : <%= p.count %></li>
         <% }) %>
-        <li class="listFooter"> 💲 <%=  order.total %> </li>
+        <li class="listFooter"> 💲 <%=  order.total %> | <a href="/order/<%=order._id%>">pdf release</a></li>
     </ul>
     <%  })  %>
     <%  }  %>

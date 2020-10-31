@@ -9,7 +9,7 @@
     <ul>
         <%     products.forEach(product => {     %>
         <li>
-            <img src="/productImage/<%= product.image %>"/>
+            <img src="/product/image/<%= product.image %>"/>
             <%=    product.title    %> | <%=    product.price    %>
             <%if(loggedIn){%>
             <% if(canModify) {%>
