@@ -17,8 +17,8 @@ router.get('/detail/:productId', controller.getProductDetail)
 router.get('/edit/:productId', isAuth, controller.getEditProduct)
 router.post('/edit', isAuth, controller.postEditProduct)
 
-router.post('/delete', isAuth, controller.postDeleteProduct)
-
 router.get('/user-list', isAuth, controller.getUserProducts)
+
+router.delete('/:productId', controller.deleteProduct)
 
 module.exports = router

@@ -41,8 +41,8 @@ exports.getProductList = (req, res) => {
                 prev: page - 1,
                 haveNext: (page + 1) <= itemsCount,
                 havePrev: (page - 1) >= 1,
-                page:page,
-                total:itemsCount
+                page: page,
+                total: itemsCount
             })
         })
         .catch(err => console.log(err))
@@ -92,14 +92,17 @@ exports.postEditProduct = (req, res, next) => {
         .catch(err => next(err))
 }
 
-exports.postDeleteProduct = (req, res) => {
-    Product.findOne({_id: req.body.id, user: req.user})
+exports.deleteProduct = (req, res) => {
+    const productId = req.params.productId
+    Product.findOne({_id: productId, user: req.user})
         .then(product => {
+            if (!product)
+                throw new Error('access denied')
             utils.deleteImage(product.image)
             return product.deleteOne()
         })
-        .then(() => res.redirect('/product/user-list'))
-        .catch(err => console.log(err))
+        .then(() => res.status(200).json({message: 'succeed.'}))
+        .catch(err => res.status(500).json({message: 'deleting product failed!'}))
 }
 
 exports.getUserProducts = (req, res) => {
@@ -109,7 +112,7 @@ exports.getUserProducts = (req, res) => {
     Product.countDocuments()
         .then(_itemsCount => {
             itemsCount = _itemsCount
-            return Product.find({user:req.user})
+            return Product.find({user: req.user})
                 .skip((page - 1) * ITEM_PER_PAGE)
                 .limit(ITEM_PER_PAGE)
         })
@@ -117,13 +120,13 @@ exports.getUserProducts = (req, res) => {
             res.render('./product-list.ejs', {
                 pageTitle: "All Products",
                 products: products,
-                canModify: false,
+                canModify: true,
                 next: page + 1,
                 prev: page - 1,
                 haveNext: (page + 1) <= itemsCount,
                 havePrev: (page - 1) >= 1,
-                page:page,
-                total:itemsCount
+                page: page,
+                total: itemsCount
             })
         })
         .catch(err => console.log(err))
